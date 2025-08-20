@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #main {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #4facfe 0%, #4070F4 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+      
+        .select {
+            width: 260px;
+            height: 50px;
+            /* border: 1px solid black; */
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            margin-top: 0px;
+        }
+
+        .select div {
+            width: 50%;
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+            padding: 10px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .select div.active {
+            color: #4070F4;
+            background: #fff;
+        }
+
+        
+        section.main_box {
+            width: 400px;
+            height: 550px;
+            position: relative;
+            perspective: 1200px;
+            margin-top: 62px;
+        }
+
+        .f-login,
+        .f-signup {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 30px;
+            transition: transform 0.7s ease, opacity 0.7s ease;
+            backface-visibility: hidden;
+        }
+
+        .f-login {
+            transform: rotateY(0deg);
+            z-index: 2;
+        }
+
+        .f-signup {
+            transform: rotateY(180deg);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .main_box.flipped .f-login {
+            transform: rotateY(-180deg);
+            opacity: 0;
+        }
+
+        .main_box.flipped .f-signup {
+            transform: rotateY(0deg);
+            opacity: 1;
+            z-index: 3;
+        }
+        .main_box{
+            margin-top:50px;
+            /* border: 3px solid black ; */
+            /* height: 500px; */
+        }
+        #chk{
+            border: 1px solid black ;
+            width: 15px;
+            height: 15px;
+        }
+       
+        .det1,
+        .det2 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .det1 h1,
+        .det2 h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .det1 input,
+        .det2 input {
+            margin-top: 15px;
+            width: 100%;
+            height: 45px;
+            padding-left: 12px;
+            border: none;
+            font-size: 15px;
+            border-radius: 10px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            transition: 0.3s;
+        }
+
+        .det1 input:focus,
+        .det2 input:focus {
+            box-shadow: 0 0 8px #4070F4;
+        }
+
+        .btn1,
+        .btl1 {
+            width: 100%;
+            height: 50px;
+            /* border: 1px solid black !important; */
+            margin-top: 25px;
+            background: linear-gradient(135deg, #4070F4, #005bb5);
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+
+        .btn1:hover,
+        .btl1:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            color: #fff;
+        }
+
+        .line div {
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .line p {
+            margin: 0 10px;
+        }
+        .btn2 , .btn3 , .btl2 , .btl3{
+            border-bottom: 1px solid rgba(192, 187, 187, 0.575);
+            height: 55px !important;
+            width: 100% !important;
+            display: flex;
+            justify-content: start;
+            margin-bottom: 5px;
+            align-items: center;
+            background-color: #005bb5;
+            border-radius: 5px;
+            transition: 0.5s ease;
+            >img{
+                height: 90%;
+                width: 50px;
+            }
+        }
+        .btn2:hover , .btn3:hover , .btl2:hover , .btl3:hover{
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+       
+        
+
+        .err {
+            position: absolute;
+            width: 400px;
+            height: 150px;
+            top: 50%;
+            left: 50%;
+            background-color: white;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 1;
+            box-shadow: 1px 1px 300px 300px black;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 1s;
+            visibility: hidden;
+            >img{
+                width: 50px !important;
+                height: 50px !important;
+            }
+        }
+
+        .entrance {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: white;
+            visibility: hidden;
+            opacity: 0;
+            z-index: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* border: 5px solid red; */
+            >div{
+                width: 90%;
+                height: 100%;
+                /* border: 5px solid green; */
+                overflow-y: scroll;
+                scrollbar-width: none;
+                >p{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+        }
+
+        .person {
+            width: 100%;
+            height: 50px;
+            margin-top: 10px;
+            background-color: #4070F4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            
+            
+        }
+    </style>
+</head>
+
+<body>
+    <main id="main">
+
+        <div class="entrance">
+            <div>
+                <p class="cha">dccdcddcdccdcddccdcd</p>
+                <p class="chb"> info </p>
+                <div class="info"></div>
+            </div>
+        </div>
+
+        <div class="err">
+            <img src="src/like.gif" alt="">
+            <div class="state"> your account has been successfully registered <a href="#"
+                    onclick="location.reload()">log in </a></div>
+        </div>
+
+      
+        <div class="select">
+            <div class="left active">Log in</div>
+            <div class="right">Sign up</div>
+        </div>
+
+        
+        <section class="main_box">
+            <div class="f-login">
+                <div class="det1">
+                    <h1>Log in </h1>
+                    <input class="l-em" placeholder="Email" type="text">
+                    <input class="p-em" placeholder="Password" type="text">
+                    <input id="chk" type="checkbox"> <label for="chk">Admin</label>
+                    <p class="check"></p>
+                    <div class="btn1">Login </div>
+                    <div class="line">
+                        <div></div>
+                        <p> Or</p>
+                        <div></div>
+                    </div>
+                    <div class="btn2">
+                        <img class="ff" src="src/icons8-facebook-50.png" alt="">
+                        Login with Facebook
+                    </div>
+                    <div class="btn3">
+                        <img class="gg" src="src/icons8-google-96.png" alt="">
+                        Login with google
+                    </div>
+                </div>
+            </div>
+
+            <div class="f-signup">
+                <div class="det2">
+                    <h1>Sign up</h1>
+                    <input class="email-sign" placeholder="Email" type="text">
+                    <p class="p1s"></p>
+                    <input class="passw-sign" placeholder="Password" type="text">
+                    <p class="p2s"></p>
+                    <input class="confirm" placeholder="confirm Password" type="text">
+                    <p class="p3s"></p>
+                    <div onclick="reg()" class="btl1">signup </div>
+                    <div class="line">
+                        <div></div>
+                        <p> Or</p>
+                        <div></div>
+                    </div>
+                    <div class="btl2">
+                        <img class="ff" src="src/icons8-facebook-50.png" alt="">
+                        Login with Facebook
+                    </div>
+                    <div class="btl3">
+                        <img class="gg" src="src/icons8-google-96.png" alt="">
+                        Login with google
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+<script>
+    
+    const mainBox = document.querySelector(".main_box");
+    const loginBtn = document.querySelector(".left");
+    const signupBtn = document.querySelector(".right");
+
+    loginBtn.addEventListener("click", () => {
+        mainBox.classList.remove("flipped");
+        loginBtn.classList.add("active");
+        signupBtn.classList.remove("active");
+    });
+
+    signupBtn.addEventListener("click", () => {
+        mainBox.classList.add("flipped");
+        signupBtn.classList.add("active");
+        loginBtn.classList.remove("active");
+    });
+
+    
+    function reg() {
+        if (
+            (document.getElementsByClassName('p1s')[0].innerHTML) == 'Valid' &&
+            (document.getElementsByClassName('p2s')[0].innerHTML) == 'Strong' &&
+            (document.getElementsByClassName('p3s')[0].innerHTML) == 'Matched'
+        ) {
+            fetch('https://683449f0464b499636021b84.mockapi.io/list1/users', {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: document.getElementsByClassName('email-sign')[0].value,
+                    password: document.getElementsByClassName('passw-sign')[0].value,
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .then(val => {
+                })
+            document.getElementsByClassName('btl1')[0].innerHTML = "<img  src='src/icons8-loading.gif'>"
+            document.getElementsByClassName('btl1')[0].style.background = 'white'
+            document.getElementsByClassName('btl1')[0].style.border = '1px solid black'
+            setTimeout(() => {
+                document.getElementsByClassName('err')[0].style.opacity = '1'
+                document.getElementsByClassName('err')[0].style.display = 'flex'
+                document.getElementsByClassName('err')[0].style.visibility = 'visible'
+            }, 3000)
+        } else {
+            document.getElementsByClassName('p3s')[0].innerHTML = 'Something is wrong'
+            document.getElementsByClassName('p3s')[0].style.color = 'red'
+        }
+    }
+
+    document.getElementsByClassName('passw-sign')[0].addEventListener('input', (e) => {
+        document.getElementsByClassName('p2s')[0].style.display = 'block'
+        if (
+            e.target.value.search(/[0-9]/) >= 0 &&
+            e.target.value.search(/[A-Z]/) >= 0 &&
+            e.target.value.search(/[a-z]/) >= 0 &&
+            e.target.value.search(/[@ ,  #,% ,! ,? ]/) >= 0 &&
+            e.target.value.length >= 8
+        ) {
+            document.getElementsByClassName('p2s')[0].style.color = 'green'
+            document.getElementsByClassName('p2s')[0].innerHTML = 'Strong'
+        } else if (
+            e.target.value.search(/[0-9]/) >= 0 ||
+            e.target.value.search(/[@ , # ,% ,! ,? ]/) >= 0 ||
+            e.target.value.length >= 8
+        ) {
+            document.getElementsByClassName('p2s')[0].style.color = 'orange'
+            document.getElementsByClassName('p2s')[0].innerHTML = 'Good'
+        } else {
+            if (e.target.value == '') {
+                document.getElementsByClassName('p2s')[0].style.display = 'none'
+            } else {
+                document.getElementsByClassName('p2s')[0].style.color = 'red'
+                document.getElementsByClassName('p2s')[0].innerHTML = 'Weak'
+            }
+        }
+    })
+
+    document.getElementById('chk').addEventListener('change', (e) => {
+        if (e.target.checked) {
+            document.getElementsByClassName('l-em')[0].value = 'admin@gmail.com'
+            document.getElementsByClassName('p-em')[0].value = 'admin1234'
+        }
+    })
+
+    document.getElementsByClassName('email-sign')[0].addEventListener('input', (e) => {
+        if (e.target.value == '') {
+            document.getElementsByClassName('p1s')[0].style.display = 'none'
+        } else if (
+            e.target.value.search('@') <= 3 ||
+            e.target.value.indexOf('script') >= 0 ||
+            e.target.value.indexOf('gmail') <= 4 ||
+            e.target.value.indexOf('.com') <= 4 ||
+            e.target.value.search(/[* ,^ ,% ,! ,?  ,# , > , < , ! , ?]/) >= 0 ||
+            e.target.value.search(/[A-Z]/) >= 0 ||
+            e.target.value.length <= 5 ||
+            e.target.value.match(/@/g).length >= 2
+        ) {
+            document.getElementsByClassName('p1s')[0].style.display = 'block'
+            document.getElementsByClassName('p1s')[0].innerHTML = 'Invalid'
+            document.getElementsByClassName('p1s')[0].style.color = 'red'
+        } else {
+            document.getElementsByClassName('p1s')[0].innerHTML = 'Valid'
+            document.getElementsByClassName('p1s')[0].style.color = 'green'
+        }
+    })
+
+    document.getElementsByClassName('confirm')[0].addEventListener('input', (e) => {
+        let x = document.getElementsByClassName('passw-sign')[0].value
+        if (e.target.value == x) {
+            document.getElementsByClassName('p3s')[0].innerHTML = 'Matched'
+            document.getElementsByClassName('p3s')[0].style.color = 'green'
+        } else {
+            document.getElementsByClassName('p3s')[0].style.color = 'red'
+            document.getElementsByClassName('p3s')[0].innerHTML = 'Unmatched'
+        }
+    })
+
+    document.getElementsByClassName('btn1')[0].addEventListener('click', (e) => {
+        let x = document.getElementsByClassName('l-em')[0].value
+        let y = document.getElementsByClassName('p-em')[0].value
+        document.getElementsByClassName('btn1')[0].innerHTML += '<img src="src/iconloading.gif">'
+        document.getElementsByClassName('btn1')[0].style.background = 'white'
+        document.getElementsByClassName('btn1')[0].style.border = '1px solid black '
+        if (x == '' || y == '') {
+            setTimeout(() => {
+                document.getElementsByClassName('check')[0].innerHTML = 'fill in  the gaps'
+            }, 3000)
+            setTimeout(() => {
+                document.getElementsByClassName('btn1')[0].style.background = '#0171D3'
+                document.getElementsByClassName('btn1')[0].innerHTML = 'Log in'
+            }, 3000)
+        } else {
+            fetch('https://683449f0464b499636021b84.mockapi.io/list1/users')
+                .then(res => res.json())
+                .then(val => {
+                    if (x == 'admin@gmail.com' && y == 'admin1234') {
+                        document.getElementsByClassName('cha')[0].innerHTML = 'Welcome Admin'
+                        document.getElementsByClassName('entrance')[0].style.visibility = 'visible'
+                        document.getElementsByClassName('entrance')[0].style.opacity = '1'
+                        document.getElementsByClassName('entrance')[0].style.zIndex = '1'
+                        for (let z = 0; z < val.length; z++) {
+                            document.getElementsByClassName('info')[0].innerHTML += `<div class='person'>
+                                <div>NUMBER : ${val[z].id}</div>
+                                <div>USERNAME : ${val[z].username}</div>
+                                <div>PASSWORD : ${val[z].password}</div>
+                            </div>`
+                        }
+                    } else {
+                        for (let z = 0; z < val.length; z++) {
+                            if (val[z].username == x && val[z].password == y) {
+                                document.getElementsByClassName('entrance')[0].style.visibility = 'visible'
+                                document.getElementsByClassName('entrance')[0].style.opacity = '1'
+                                document.getElementsByClassName('entrance')[0].style.zIndex = '1'
+                                document.getElementsByClassName('cha')[0].innerHTML = ` Welcome ${ val[z].username }`
+                                document.getElementsByClassName('info')[0].innerHTML = `<div class='person'>
+                                    <div>NUMBER : ${val[z].id}</div>
+                                    <div>USERNAME : ${val[z].username}</div>
+                                    <div>PASSWORD : ${val[z].password}</div>
+                                </div>`
+                                break;
+                            } else {
+                                document.getElementsByClassName('btn1')[0].style.background = '#0171D3'
+                                document.getElementsByClassName('btn1')[0].innerHTML = 'Log in'
+                                document.getElementsByClassName('check')[0].innerHTML = 'Incorrect username or password'
+                            }
+                        }
+                    }
+                })
+        }
+    })
+</script>
+
+</html>
